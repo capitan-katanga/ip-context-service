@@ -5,8 +5,8 @@ import lombok.Data;
 
 @Data
 public class LanguageDto {
-    public String code;
-    public String name;
+    private String code;
+    private String name;
     @JsonProperty("native")
-    public String mynative;
+    private String mynative;
 }

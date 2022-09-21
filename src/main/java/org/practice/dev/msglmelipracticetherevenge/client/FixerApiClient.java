@@ -1,7 +1,9 @@
 package org.practice.dev.msglmelipracticetherevenge.client;
 
 import lombok.Data;
+import lombok.extern.log4j.Log4j2;
 import org.practice.dev.msglmelipracticetherevenge.dto.fixerapi.FixerApiDto;
+import org.practice.dev.msglmelipracticetherevenge.exception.ClientRequestErrorException;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
@@ -12,11 +14,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.ArrayList;
 
+@Log4j2
 @Data
 @ConfigurationProperties(prefix = "fixerapi")
 @Component
 public class FixerApiClient {
-    private String path;
+    private String host;
     private String apikey;
 
     private final RestTemplate restTemplate;
@@ -32,21 +35,21 @@ public class FixerApiClient {
     }
 
     public FixerApiDto getExchangeRateBasedOnDollar(ArrayList<String> symbols) {
-        String symbolsFormatted = symbols.toString()
-                .replace("[", "")
-                .replace("]", "")
-                .replace(" ", "");
-        UriComponents uriParameters = UriComponentsBuilder.newInstance()
-                .scheme("https")
-                .host(path)
-                .path("latest")
+        String symbolsFormatted = String.join(",", symbols);
+        log.info("List of currencies to request from fixapi: " + symbolsFormatted);
+        UriComponents uriParameters = UriComponentsBuilder.newInstance().scheme("https").host(host).path("latest")
                 .queryParam("symbols", symbolsFormatted)
                 .queryParam("base", "USD").build();
+        log.info("Uri fixapi: " + uriParameters.toUriString());
         HttpEntity<Void> httpEntity = new HttpEntity<>(getHeaderWithApikey());
-        ResponseEntity<FixerApiDto> responseEntity = restTemplate.exchange(uriParameters.toUriString(), HttpMethod.GET, httpEntity, FixerApiDto.class);
-        if (responseEntity.getStatusCode() != HttpStatus.OK)
-            throw new RuntimeException("Response in Fixer endpoint is not OK \n " + responseEntity.getStatusCode());
-
+        ResponseEntity<FixerApiDto> responseEntity =
+                restTemplate.exchange(uriParameters.toUriString(), HttpMethod.GET, httpEntity, FixerApiDto.class);
+        log.info("Body response fixapi: " + responseEntity.getBody());
+        if (responseEntity.getStatusCode() != HttpStatus.OK) {
+            log.error("Status code fixapi: " + responseEntity.getStatusCode());
+            log.error("Body response fixapi: " + responseEntity.getBody());
+            throw new ClientRequestErrorException("Response in Fixer endpoint is not OK \n " + responseEntity.getStatusCode());
+        }
         return responseEntity.getBody();
     }
 

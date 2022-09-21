@@ -3,6 +3,8 @@ package org.practice.dev.msglmelipracticetherevenge.dto.geographyapi;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 public class GeographyApiDto {
@@ -29,4 +31,8 @@ public class GeographyApiDto {
     private ArrayList<CurrencyDto> currencies;
     private ArrayList<LanguageDto> languages;
     private ArrayList<RegionalBlocDto> regional_blocs;
+
+    public List<String> getListCurrenciesCode(){
+        return currencies.stream().map(CurrencyDto::getCode).collect(Collectors.toList());
+    }
 }
