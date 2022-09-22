@@ -37,13 +37,13 @@ public class FixerApiClient {
     public FixerApiDto getExchangeRateBasedOnDollar(ArrayList<String> symbols) {
         String symbolsFormatted = String.join(",", symbols);
         log.info("List of currencies to request from fixapi: " + symbolsFormatted);
-        UriComponents uriParameters = UriComponentsBuilder.newInstance().scheme("https").host(host).path("latest")
+        UriComponents uriComponents = UriComponentsBuilder.newInstance().scheme("https").host(host).path("latest")
                 .queryParam("symbols", symbolsFormatted)
                 .queryParam("base", "USD").build();
-        log.info("Uri fixapi: " + uriParameters.toUriString());
+        log.info("Uri fixapi: " + uriComponents.toUriString());
         HttpEntity<Void> httpEntity = new HttpEntity<>(getHeaderWithApikey());
         ResponseEntity<FixerApiDto> responseEntity =
-                restTemplate.exchange(uriParameters.toUriString(), HttpMethod.GET, httpEntity, FixerApiDto.class);
+                restTemplate.exchange(uriComponents.toUriString(), HttpMethod.GET, httpEntity, FixerApiDto.class);
         log.info("Body response fixapi: " + responseEntity.getBody());
         if (responseEntity.getStatusCode() != HttpStatus.OK) {
             log.error("Status code fixapi: " + responseEntity.getStatusCode());

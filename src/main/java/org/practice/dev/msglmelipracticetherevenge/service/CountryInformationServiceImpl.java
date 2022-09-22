@@ -10,6 +10,7 @@ import org.practice.dev.msglmelipracticetherevenge.dto.countryinformation.Mapper
 import org.practice.dev.msglmelipracticetherevenge.dto.fixerapi.FixerApiDto;
 import org.practice.dev.msglmelipracticetherevenge.dto.geographyapi.GeographyApiDto;
 import org.practice.dev.msglmelipracticetherevenge.dto.ipapi.IpapiDto;
+import org.practice.dev.msglmelipracticetherevenge.exception.IpAddressIsBannedException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,9 +23,13 @@ public class CountryInformationServiceImpl implements CountryInformationService 
     private final IpapiClient ipapiClient;
     private final GeographyApiClient geographyApiClient;
     private final FixerApiClient fixerApiClient;
+    private final IpAddressBlacklistService ipAddressBlacklistService;
     private MapperCountryDto mapperCountryDto;
 
     public CountryInformationDto getCountryInformation(String ipAddress) {
+        if (ipAddressBlacklistService.ipAddressIsBaned(ipAddress)) {
+            throw new IpAddressIsBannedException("The ip address: " + ipAddress + " is banned.");
+        }
         IpapiDto ipapiDto = ipapiClient.getIpInformationByIpAddress(ipAddress);
         log.debug("Dto Ipapi: " + ipapiDto);
         GeographyApiDto geographyApiDto = geographyApiClient.getCountryInformationByCountryCode(ipapiDto.getCountry_code());
