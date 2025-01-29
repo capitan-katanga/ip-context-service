@@ -29,6 +29,7 @@ public record GeographyApiDto(
         List<Language> languages,
         @JsonProperty("regional_blocs") List<RegionalBloc> regionalBlocs
 ) {
+
     public record Currency(
             String name,
             String code,

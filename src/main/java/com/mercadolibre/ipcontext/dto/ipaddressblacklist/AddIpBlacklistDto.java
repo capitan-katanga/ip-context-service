@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.mercadolibre.ipcontext.customvalidator.IpAddress;
+import com.mercadolibre.ipcontext.validator.IpAddress;
 
 @Data
 @Builder

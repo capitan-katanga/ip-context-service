@@ -34,22 +34,17 @@ public class IpApiClient {
 
     public IpApiDto getIpApi(String ipAddress) {
         return webClient.get()
-                .uri(uriBuilder -> {
-                    var uri = uriBuilder
-                            .scheme(scheme)
-                            .host(host)
-                            .path(path)
-                            .queryParam("access_key", accessKey)
-                            .build(ipAddress);
-                    log.info("IPAPI -> UriBuilder: {}", uri);
-                    return uri;
-                })
+                .uri(uriBuilder -> uriBuilder
+                        .scheme(scheme)
+                        .host(host)
+                        .path(path)
+                        .queryParam("access_key", accessKey)
+                        .build(ipAddress))
                 .retrieve()
                 .bodyToMono(IpApiDto.class)
-                .doOnSuccess(
-                        response -> log.info("IpApi body response -> {}", response))
                 .onErrorMap(
-                        exception -> new ClientRequestErrorException("IpApi error: " + exception.getMessage()))
+                        exception -> new ClientRequestErrorException("IpApi error: " + exception.getMessage())
+                )
                 .block();
     }
 

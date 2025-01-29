@@ -1,6 +1,7 @@
 package com.mercadolibre.ipcontext.config;
 
 import io.netty.channel.ChannelOption;
+import io.netty.handler.logging.LogLevel;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import io.netty.handler.timeout.ReadTimeoutHandler;
@@ -13,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
+import reactor.netty.transport.logging.AdvancedByteBufFormat;
 
 import javax.net.ssl.SSLException;
 import java.time.Duration;
@@ -38,13 +40,16 @@ public class WebClientConfig {
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, timeout)
                 .secure(sslContextSpec -> sslContextSpec.sslContext(sslContext))
                 .responseTimeout(Duration.ofMillis(readTimeout))
+                .wiretap(this.getClass().getCanonicalName(), LogLevel.INFO, AdvancedByteBufFormat.TEXTUAL)
                 .doOnConnected(connection -> connection
                         .addHandlerLast(new ReadTimeoutHandler(timeout, TimeUnit.MILLISECONDS))
                         .addHandlerLast(new WriteTimeoutHandler(timeout, TimeUnit.MILLISECONDS))
                 );
+
         return WebClient.builder()
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
     }
+
 }

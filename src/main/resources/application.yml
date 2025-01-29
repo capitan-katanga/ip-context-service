@@ -27,5 +27,5 @@ geography-api:
 fixer-api:
   scheme: https
   host: api.apilayer.com
-  path: fixer/lasted
+  path: fixer/latest
   apikey: yZbci6tDYm2Huog33iR7icBM0Z5zXAWF

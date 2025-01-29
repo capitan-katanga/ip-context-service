@@ -1,6 +1,6 @@
 package com.mercadolibre.ipcontext.dto.ipcontext;
 
-import com.mercadolibre.ipcontext.customvalidator.IpAddress;
+import com.mercadolibre.ipcontext.validator.IpAddress;
 import lombok.Builder;
 
 

@@ -32,24 +32,27 @@ public class GeographyApiClient {
     }
 
     public GeographyApiDto getGeographyInfo(String countryCode) {
-        return webClient.get()
-                .uri(uriBuilder -> {
-                    var uri = uriBuilder
-                            .scheme(schema)
-                            .host(host)
-                            .path(path)
-                            .build(countryCode);
-                    log.info("GeoApi -> UriBuilder: {}", uri);
-                    return uri;
-                })
+        var response = webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .scheme(schema)
+                        .host(host)
+                        .path(path)
+                        .build(countryCode)
+                )
                 .header("apikey", apikey)
                 .retrieve()
-                .bodyToMono(GeographyApiDto.class)
-                .doOnSuccess(
-                        response -> log.info("GeoApi body response: {}", response.toString()))
+                .bodyToMono(GeographyApiDto[].class)
                 .onErrorMap(
-                        exception -> new ClientRequestErrorException("GeoApi error: " + exception.getMessage()))
+                        exception -> new ClientRequestErrorException("GeoAPI error: " + exception.getMessage())
+                )
                 .block();
+
+        if (response != null && response.length != 1) {
+            if (response[0] != null) {
+                return response[0];
+            }
+        }
+        throw new ClientRequestErrorException("GeoAPI - Error in body response -> ");
     }
 
 }
