@@ -16,6 +16,7 @@ public class FixerApiClient {
 
     private final String scheme;
     private final String host;
+    private final Integer port;
     private final String path;
     private final String apikey;
     private final WebClient webClient;
@@ -23,6 +24,7 @@ public class FixerApiClient {
     @Autowired
     public FixerApiClient(@Value("${fixer-api.scheme}") String scheme,
                           @Value("${fixer-api.host}") String host,
+                          @Value("${fixer-api.port}") Integer port,
                           @Value("${fixer-api.path}") String path,
                           @Value("${fixer-api.apikey}") String apikey,
                           WebClient webClient) {
@@ -30,6 +32,7 @@ public class FixerApiClient {
         this.host = host;
         this.path = path;
         this.apikey = apikey;
+        this.port = port;
         this.webClient = webClient;
     }
 
@@ -38,6 +41,7 @@ public class FixerApiClient {
                 .uri(uriBuilder -> uriBuilder
                         .scheme(scheme)
                         .host(host)
+                        .port(port)
                         .path(path)
                         .queryParam("symbols", String.join(",", symbols))
                         .queryParam("base", base)
@@ -45,6 +49,13 @@ public class FixerApiClient {
                 .header("apikey", apikey)
                 .retrieve()
                 .bodyToMono(FixerApiDto.class)
+                .doOnSuccess(
+                        response -> {
+                            if (!response.success()) {
+                                throw new ClientRequestErrorException("FixerApi no success, response -> " + response);
+                            }
+                        }
+                )
                 .onErrorMap(
                         exception -> new ClientRequestErrorException("FixerApi error: " + exception.getMessage())
                 )
