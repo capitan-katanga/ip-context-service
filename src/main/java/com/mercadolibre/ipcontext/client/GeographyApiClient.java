@@ -15,6 +15,7 @@ public class GeographyApiClient {
 
     private final String schema;
     private final String host;
+    private final Integer port;
     private final String path;
     private final String apikey;
     private final WebClient webClient;
@@ -22,11 +23,13 @@ public class GeographyApiClient {
     @Autowired
     public GeographyApiClient(@Value("${geography-api.scheme}") String schema,
                               @Value("${geography-api.host}") String host,
+                              @Value("${geography-api.port}") Integer port,
                               @Value("${geography-api.path}") String path,
                               @Value("${geography-api.apikey}") String apikey,
                               WebClient webClient) {
         this.schema = schema;
         this.host = host;
+        this.port = port;
         this.path = path;
         this.apikey = apikey;
         this.webClient = webClient;
@@ -37,6 +40,7 @@ public class GeographyApiClient {
                 .uri(uriBuilder -> uriBuilder
                         .scheme(schema)
                         .host(host)
+                        .port(port)
                         .path(path)
                         .build(countryCode)
                 )

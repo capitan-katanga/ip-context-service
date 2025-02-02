@@ -1,9 +1,11 @@
 package com.mercadolibre.ipcontext.dto.geographyapi;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 
 import java.util.List;
 
+@Builder
 public record GeographyApiDto(
         String name,
         String alpha2code,
@@ -30,6 +32,7 @@ public record GeographyApiDto(
         @JsonProperty("regional_blocs") List<RegionalBloc> regionalBlocs
 ) {
 
+    @Builder
     public record Currency(
             String name,
             String code,
@@ -37,6 +40,7 @@ public record GeographyApiDto(
     ) {
     }
 
+    @Builder
     public record Language(
             String name,
             @JsonProperty("native_name") String nativeName,
@@ -45,6 +49,7 @@ public record GeographyApiDto(
     ) {
     }
 
+    @Builder
     public record RegionalBloc(
             String acronym,
             String name
