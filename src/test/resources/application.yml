@@ -1,0 +1,33 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/db_spring_practices
+    username: dummy
+    password: password
+
+client:
+  timeout: 10000
+  read-timeout: 10000
+
+ip-api:
+  scheme: https
+  host: api.ipapi.com
+  path: api/{ipAddress}
+  access-key: 272e6b7557030b76e5d04e2325d8ea86
+
+geography-api:
+  scheme: http
+  host: localhost
+  port:
+  path: geo/country/code/{countryCode}
+  apikey: yZbci6tDYm2Huog33iR7icBM0Z5zXAWF
+
+fixer-api:
+  scheme: http
+  host: localhost
+  port:
+  path: fixer/latest
+  apikey: yZbci6tDYm2Huog33iR7icBM0Z5zXAWF
