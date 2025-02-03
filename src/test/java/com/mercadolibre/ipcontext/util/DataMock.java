@@ -2,10 +2,13 @@ package com.mercadolibre.ipcontext.util;
 
 import com.mercadolibre.ipcontext.dto.fixerapi.FixerApiDto;
 import com.mercadolibre.ipcontext.dto.geographyapi.GeographyApiDto;
+import com.mercadolibre.ipcontext.dto.ipaddressblacklist.AddIpBlacklistDto;
 import com.mercadolibre.ipcontext.dto.ipapi.IpApiDto;
+import com.mercadolibre.ipcontext.entity.IpAddressBlacklist;
 import lombok.experimental.UtilityClass;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -110,7 +113,20 @@ public class DataMock {
                         .isEu(false)
                         .build())
                 .build();
+    }
 
+    public static IpAddressBlacklist ipAddressBlacklistMock() {
+        return IpAddressBlacklist.builder()
+                .id(1)
+                .ipAddress(IP_ADDRESS)
+                .banDateActivated(LocalDateTime.now())
+                .build();
+    }
+
+    public static AddIpBlacklistDto addIpBlacklistDtoMock() {
+        return AddIpBlacklistDto.builder()
+                .ipAddress(IP_ADDRESS)
+                .build();
     }
 
 }

@@ -73,7 +73,6 @@ class IpContextServiceImplTest {
                 ipContextService.getCountryInformation(ipAddress));
 
         assertEquals("The ip address: " + ipAddress + " is banned.", exception.getMessage());
-
     }
 
 
