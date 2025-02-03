@@ -37,9 +37,8 @@ class IpContextServiceImplTest {
     @InjectMocks
     private IpContextServiceImpl ipContextService;
 
-
     @Test
-    void getCountryInformation() {
+    void getIpContext() {
         var ipAddress = IP_ADDRESS;
         var ipApiResponseMock = ipApiDtoMock();
         var geoApiResponseMock = geographyApiDtoMock();
@@ -56,7 +55,7 @@ class IpContextServiceImplTest {
         when(ipBlacklistService.ipAddressIsBaned(ipAddress))
                 .thenReturn(false);
 
-        var response = ipContextService.getCountryInformation(ipAddress);
+        var response = ipContextService.getIpContext(ipAddress);
         var responseExpected = mapperCountryDto.toCountryInformationDto(ipApiResponseMock, geoApiResponseMock, fixApiResponseMock);
 
         assertEquals(responseExpected, response);
@@ -64,16 +63,15 @@ class IpContextServiceImplTest {
     }
 
     @Test
-    void getCountryInformationWithIpAddressBanned() {
+    void getIpContextWithIpAddressBanned() {
         var ipAddress = IP_ADDRESS;
         when(ipBlacklistService.ipAddressIsBaned(ipAddress))
                 .thenReturn(true);
 
         var exception = assertThrows(IpAddressIsBannedException.class, () ->
-                ipContextService.getCountryInformation(ipAddress));
+                ipContextService.getIpContext(ipAddress));
 
         assertEquals("The ip address: " + ipAddress + " is banned.", exception.getMessage());
     }
-
 
 }

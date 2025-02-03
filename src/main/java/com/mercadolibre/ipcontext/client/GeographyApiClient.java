@@ -1,7 +1,7 @@
 package com.mercadolibre.ipcontext.client;
 
 import com.mercadolibre.ipcontext.dto.geographyapi.GeographyApiDto;
-import com.mercadolibre.ipcontext.exception.ClientRequestErrorException;
+import com.mercadolibre.ipcontext.exception.ClientApiErrorException;
 import com.mercadolibre.ipcontext.util.Utils;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +48,7 @@ public class GeographyApiClient {
                 .retrieve()
                 .bodyToMono(GeographyApiDto[].class)
                 .onErrorMap(
-                        exception -> new ClientRequestErrorException("GeoAPI error: " + exception.getMessage())
+                        exception -> new ClientApiErrorException("GeoAPI error: " + exception.getMessage())
                 )
                 .block();
 
@@ -57,7 +57,7 @@ public class GeographyApiClient {
                 return response[0];
             }
         }
-        throw new ClientRequestErrorException("GeoAPI - Error in body response -> " + Utils.convertToJson(response));
+        throw new ClientApiErrorException("GeoAPI - Error in body response -> " + Utils.convertToJson(response));
     }
 
 }

@@ -1,6 +1,6 @@
 package com.mercadolibre.ipcontext.client;
 
-import com.mercadolibre.ipcontext.exception.ClientRequestErrorException;
+import com.mercadolibre.ipcontext.exception.ClientApiErrorException;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.AfterAll;
@@ -86,7 +86,7 @@ class IpApiClientTest {
 
         mockBackEnd.enqueue(mockResponse);
 
-        var exception = assertThrows(ClientRequestErrorException.class, () ->
+        var exception = assertThrows(ClientApiErrorException.class, () ->
                 ipApiClient.getIpApi("181.165.139.141"));
 
         assertThat(exception.getMessage(), containsString("IpApi error: 500 Internal Server Error from GET"));

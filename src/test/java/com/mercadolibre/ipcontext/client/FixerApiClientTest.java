@@ -2,7 +2,7 @@ package com.mercadolibre.ipcontext.client;
 
 
 import com.mercadolibre.ipcontext.dto.fixerapi.FixerApiDto;
-import com.mercadolibre.ipcontext.exception.ClientRequestErrorException;
+import com.mercadolibre.ipcontext.exception.ClientApiErrorException;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.AfterAll;
@@ -122,7 +122,7 @@ class FixerApiClientTest {
 
         mockBackEnd.enqueue(mockResponse);
 
-        var exception = assertThrows(ClientRequestErrorException.class, () ->
+        var exception = assertThrows(ClientApiErrorException.class, () ->
                 fixerApiClient.getFixer(List.of("ARS"), "USD")
         );
 

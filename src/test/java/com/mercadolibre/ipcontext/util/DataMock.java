@@ -3,7 +3,9 @@ package com.mercadolibre.ipcontext.util;
 import com.mercadolibre.ipcontext.dto.fixerapi.FixerApiDto;
 import com.mercadolibre.ipcontext.dto.geographyapi.GeographyApiDto;
 import com.mercadolibre.ipcontext.dto.ipaddressblacklist.AddIpBlacklistDto;
+import com.mercadolibre.ipcontext.dto.ipaddressblacklist.GetIpBlacklistDto;
 import com.mercadolibre.ipcontext.dto.ipapi.IpApiDto;
+import com.mercadolibre.ipcontext.dto.ipcontext.IpContextResponseDto;
 import com.mercadolibre.ipcontext.entity.IpAddressBlacklist;
 import lombok.experimental.UtilityClass;
 
@@ -126,6 +128,24 @@ public class DataMock {
     public static AddIpBlacklistDto addIpBlacklistDtoMock() {
         return AddIpBlacklistDto.builder()
                 .ipAddress(IP_ADDRESS)
+                .build();
+    }
+
+    public static IpContextResponseDto ipContextResponseDtoMock() {
+        return IpContextResponseDto.builder()
+                .ipAddress(IP_ADDRESS)
+                .countryName("Argentina")
+                .isoCode("ARG")
+                .base("USD")
+                .localCurrencyAndRate(Map.of("ARS", 1000D))
+                .build();
+    }
+
+    public static GetIpBlacklistDto getIpBlacklistDtoMock() {
+        return GetIpBlacklistDto.builder()
+                .id(1)
+                .ipAddress(IP_ADDRESS)
+                .banDateActivated(LocalDateTime.now())
                 .build();
     }
 

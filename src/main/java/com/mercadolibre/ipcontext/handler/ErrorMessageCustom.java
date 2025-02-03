@@ -1,4 +1,4 @@
-package com.mercadolibre.ipcontext.dto.handler;
+package com.mercadolibre.ipcontext.handler;
 
 import lombok.Builder;
 import lombok.Data;

@@ -32,7 +32,7 @@ public class IpContextServiceImpl implements IpContextService {
         this.mapperCountryDto = mapperCountryDto;
     }
 
-    public IpContextResponseDto getCountryInformation(String ipAddress) {
+    public IpContextResponseDto getIpContext(String ipAddress) {
         if (ipBlacklistService.ipAddressIsBaned(ipAddress)) {
             throw new IpAddressIsBannedException("The ip address: " + ipAddress + " is banned.");
         }

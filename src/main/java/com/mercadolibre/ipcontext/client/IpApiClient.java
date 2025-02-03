@@ -1,7 +1,7 @@
 package com.mercadolibre.ipcontext.client;
 
 import com.mercadolibre.ipcontext.dto.ipapi.IpApiDto;
-import com.mercadolibre.ipcontext.exception.ClientRequestErrorException;
+import com.mercadolibre.ipcontext.exception.ClientApiErrorException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,7 +47,7 @@ public class IpApiClient {
                 .retrieve()
                 .bodyToMono(IpApiDto.class)
                 .onErrorMap(
-                        exception -> new ClientRequestErrorException("IpApi error: " + exception.getMessage())
+                        exception -> new ClientApiErrorException("IpApi error: " + exception.getMessage())
                 )
                 .block();
     }

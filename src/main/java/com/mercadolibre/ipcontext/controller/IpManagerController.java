@@ -28,11 +28,11 @@ public class IpManagerController {
 
     @GetMapping("/info/{ip}")
     public ResponseEntity<IpContextResponseDto> getIpInfo(@PathVariable(value = "ip") @IpAddress(message = "It is not a valid ip address") String ipAddress) {
-        return new ResponseEntity<>(ipContextService.getCountryInformation(ipAddress), HttpStatus.OK);
+        return new ResponseEntity<>(ipContextService.getIpContext(ipAddress), HttpStatus.OK);
     }
 
     @PostMapping("/banIp")
-    public ResponseEntity<GetIpBlacklistDto> adIpAddressToBlacklist(@Valid @RequestBody AddIpBlacklistDto addIpBlacklistDto) {
+    public ResponseEntity<GetIpBlacklistDto> addIpAddressToBlacklist(@Valid @RequestBody AddIpBlacklistDto addIpBlacklistDto) {
         return new ResponseEntity<>(ipBlacklistService.banIpAddress(addIpBlacklistDto), HttpStatus.OK);
     }
 

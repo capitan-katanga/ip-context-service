@@ -1,6 +1,6 @@
 package com.mercadolibre.ipcontext.client;
 
-import com.mercadolibre.ipcontext.exception.ClientRequestErrorException;
+import com.mercadolibre.ipcontext.exception.ClientApiErrorException;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.AfterAll;
@@ -87,7 +87,7 @@ class GeographyApiClientTest {
 
         mockBackEnd.enqueue(mockResponse);
 
-        var exception = assertThrows(ClientRequestErrorException.class, () ->
+        var exception = assertThrows(ClientApiErrorException.class, () ->
                 geographyApiClient.getGeographyInfo("AR"));
 
         assertThat(exception.getMessage(), containsString("GeoAPI error: 500 Internal Server Error from GET"));
@@ -103,7 +103,7 @@ class GeographyApiClientTest {
 
         mockBackEnd.enqueue(mockResponse);
 
-        var exception = assertThrows(ClientRequestErrorException.class, () ->
+        var exception = assertThrows(ClientApiErrorException.class, () ->
                 geographyApiClient.getGeographyInfo("AR"));
 
         assertEquals("GeoAPI - Error in body response -> " + convertToJson(mockGeoDto),

@@ -1,7 +1,7 @@
 package com.mercadolibre.ipcontext.client;
 
 import com.mercadolibre.ipcontext.dto.fixerapi.FixerApiDto;
-import com.mercadolibre.ipcontext.exception.ClientRequestErrorException;
+import com.mercadolibre.ipcontext.exception.ClientApiErrorException;
 import com.mercadolibre.ipcontext.util.Utils;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,12 +53,12 @@ public class FixerApiClient {
                 .doOnSuccess(
                         response -> {
                             if (!response.success()) {
-                                throw new ClientRequestErrorException("Response no success -> " + Utils.convertToJson(response));
+                                throw new ClientApiErrorException("Response no success -> " + Utils.convertToJson(response));
                             }
                         }
                 )
                 .onErrorMap(
-                        exception -> new ClientRequestErrorException("FixerApi error: " + exception.getMessage())
+                        exception -> new ClientApiErrorException("FixerApi error: " + exception.getMessage())
                 )
                 .block();
     }
