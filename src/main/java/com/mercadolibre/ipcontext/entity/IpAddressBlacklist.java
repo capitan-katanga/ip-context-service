@@ -1,4 +1,4 @@
-package com.mercadolibre.ipcontext.model;
+package com.mercadolibre.ipcontext.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -21,8 +21,5 @@ public class IpAddressBlacklist {
     @Column(unique = true)
     private String ipAddress;
     @Column(nullable = false)
-    private Timestamp banDateActivated;
-    private Timestamp banDateDeactivate;
-    @Column(nullable = false)
-    private Boolean banActivate;
+    private LocalDateTime banDateActivated;
 }

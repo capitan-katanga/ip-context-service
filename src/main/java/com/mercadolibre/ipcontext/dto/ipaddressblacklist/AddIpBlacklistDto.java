@@ -1,16 +1,10 @@
 package com.mercadolibre.ipcontext.dto.ipaddressblacklist;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import com.mercadolibre.ipcontext.validator.IpAddress;
+import lombok.Builder;
 
-@Data
+
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class AddIpBlacklistDto {
-    @IpAddress(message = "It is not a valid ip address")
-    private String ipAddress;
+public record AddIpBlacklistDto(
+        @IpAddress(message = "It is not a valid ip address") String ipAddress) {
 }

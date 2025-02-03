@@ -6,6 +6,7 @@ import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +27,7 @@ public class WebClientConfig {
     private final Integer readTimeout;
     private final Integer timeout;
 
-
+    @Autowired
     public WebClientConfig(@Value("${client.timeout}") Integer readTimeout,
                            @Value("${client.read-timeout}") Integer timeout) {
         this.readTimeout = readTimeout;
