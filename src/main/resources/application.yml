@@ -15,18 +15,20 @@ client:
 ip-api:
   scheme: https
   host: api.ipapi.com
+  port: -1
   path: api/{ipAddress}
   access-key: 272e6b7557030b76e5d04e2325d8ea86
 
 geography-api:
   scheme: https
   host: api.apilayer.com
+  port: -1
   path: geo/country/code/{countryCode}
   apikey: yZbci6tDYm2Huog33iR7icBM0Z5zXAWF
 
 fixer-api:
   scheme: https
   host: api.apilayer.com
-  port:
+  port: -1
   path: fixer/latest
   apikey: yZbci6tDYm2Huog33iR7icBM0Z5zXAWF
