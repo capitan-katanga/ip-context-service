@@ -1,4 +1,4 @@
-package com.mercadolibre.ipcontext.exception.handler;
+package com.mercadolibre.ipcontext.dto.handler;
 
 import lombok.Builder;
 import lombok.Data;

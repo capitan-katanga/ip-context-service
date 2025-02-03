@@ -1,4 +1,4 @@
-package com.mercadolibre.ipcontext.exception.handler;
+package com.mercadolibre.ipcontext.dto.handler;
 
 import com.mercadolibre.ipcontext.exception.ClientRequestErrorException;
 import com.mercadolibre.ipcontext.exception.IpAddressIsBannedException;
