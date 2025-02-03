@@ -3,7 +3,6 @@ package com.mercadolibre.ipcontext.client;
 
 import com.mercadolibre.ipcontext.dto.fixerapi.FixerApiDto;
 import com.mercadolibre.ipcontext.exception.ClientRequestErrorException;
-import com.mercadolibre.ipcontext.util.Utils;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.AfterAll;
@@ -23,6 +22,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+import static com.mercadolibre.ipcontext.util.Utils.convertToJson;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class FixerApiClientTest {
 
     private static MockWebServer mockBackEnd;
-    public FixerApiClient fixerApiClient;
+    private FixerApiClient fixerApiClient;
 
     @Value("${fixer-api.scheme}")
     private String scheme;
@@ -75,7 +75,7 @@ class FixerApiClientTest {
                 .build();
         var mockResponse = new MockResponse()
                 .setResponseCode(HttpStatus.OK.value())
-                .setBody(Utils.convertToJson(mockFixerDto))
+                .setBody(convertToJson(mockFixerDto))
                 .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 
         mockBackEnd.enqueue(mockResponse);
@@ -96,7 +96,7 @@ class FixerApiClientTest {
                 .build();
         var mockResponse = new MockResponse()
                 .setResponseCode(HttpStatus.OK.value())
-                .setBody(Utils.convertToJson(mockFixerDto))
+                .setBody(convertToJson(mockFixerDto))
                 .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 
         mockBackEnd.enqueue(mockResponse);
@@ -117,7 +117,7 @@ class FixerApiClientTest {
 
         var mockResponse = new MockResponse()
                 .setResponseCode(HttpStatus.OK.value())
-                .setBody(Utils.convertToJson(mockFixerDto))
+                .setBody(convertToJson(mockFixerDto))
                 .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 
         mockBackEnd.enqueue(mockResponse);
@@ -126,7 +126,7 @@ class FixerApiClientTest {
                 fixerApiClient.getFixer(List.of("ARS"), "USD")
         );
 
-        assertEquals("FixerApi error: Response no success -> " + Utils.convertToJson(mockFixerDto),
+        assertEquals("FixerApi error: Response no success -> " + convertToJson(mockFixerDto),
                 exception.getMessage());
     }
 

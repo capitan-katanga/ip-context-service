@@ -1,2 +1,1 @@
-# msgl-meli-practice-the-revenge
-Java development practice exercise
+# Java development practice exercise

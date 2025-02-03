@@ -1,9 +1,11 @@
 package com.mercadolibre.ipcontext.dto.ipapi;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 
 import java.util.List;
 
+@Builder
 public record IpApiDto(
         String ip,
         String type,
@@ -24,6 +26,7 @@ public record IpApiDto(
         @JsonProperty("connection_type") String connectionType,
         Location location
 ) {
+    @Builder
     public record Location(
             @JsonProperty("geoname_id") Integer geoNameId,
             String capital,
@@ -34,6 +37,7 @@ public record IpApiDto(
             @JsonProperty("calling_code") String callingCode,
             @JsonProperty("is_eu") Boolean isEu
     ) {
+        @Builder
         public record Language(
                 String code,
                 String name,

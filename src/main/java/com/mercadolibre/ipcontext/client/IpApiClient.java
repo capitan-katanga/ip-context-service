@@ -15,6 +15,7 @@ public class IpApiClient {
 
     private final String scheme;
     private final String host;
+    private final Integer port;
     private final String path;
     private final String accessKey;
     private final WebClient webClient;
@@ -22,11 +23,13 @@ public class IpApiClient {
     @Autowired
     public IpApiClient(@Value("${ip-api.scheme}") String scheme,
                        @Value("${ip-api.host}") String host,
+                       @Value("${ip-api.port}") Integer port,
                        @Value("${ip-api.path}") String path,
                        @Value("${ip-api.access-key}") String accessKey,
                        WebClient webClient) {
         this.scheme = scheme;
         this.host = host;
+        this.port = port;
         this.path = path;
         this.accessKey = accessKey;
         this.webClient = webClient;
@@ -37,6 +40,7 @@ public class IpApiClient {
                 .uri(uriBuilder -> uriBuilder
                         .scheme(scheme)
                         .host(host)
+                        .port(port)
                         .path(path)
                         .queryParam("access_key", accessKey)
                         .build(ipAddress))
