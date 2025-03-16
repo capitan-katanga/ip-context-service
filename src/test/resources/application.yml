@@ -2,9 +2,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/db_spring_practices
+    url: jdbc:h2:mem:db_spring_practices
     username: dummy
     password: password
 

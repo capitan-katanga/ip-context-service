@@ -36,6 +36,7 @@ public class IpContextServiceImpl implements IpContextService {
         if (ipBlacklistService.ipAddressIsBaned(ipAddress)) {
             throw new IpAddressIsBannedException("The ip address: " + ipAddress + " is banned.");
         }
+        log.info("The IP: {} is not banned and starts getting information", ipAddress);
         var responseIpApi = ipApiClient.getIpApi(ipAddress);
         var responseGeoApi = geographyApiClient.getGeographyInfo(responseIpApi.countryCode());
         var currencyCodes = responseGeoApi.currencies().stream()

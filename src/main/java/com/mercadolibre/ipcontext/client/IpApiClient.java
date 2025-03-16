@@ -2,6 +2,7 @@ package com.mercadolibre.ipcontext.client;
 
 import com.mercadolibre.ipcontext.dto.ipapi.IpApiDto;
 import com.mercadolibre.ipcontext.exception.ClientApiErrorException;
+import com.mercadolibre.ipcontext.util.Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,6 +37,7 @@ public class IpApiClient {
     }
 
     public IpApiDto getIpApi(String ipAddress) {
+        log.info("IpAPI service call begins.");
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .scheme(scheme)
@@ -46,8 +48,11 @@ public class IpApiClient {
                         .build(ipAddress))
                 .retrieve()
                 .bodyToMono(IpApiDto.class)
+                .doOnSuccess(
+                        response -> log.info("IpAPI OK body response -> {}", Utils.convertToJson(response))
+                )
                 .onErrorMap(
-                        exception -> new ClientApiErrorException("IpApi error: " + exception.getMessage())
+                        exception -> new ClientApiErrorException("IpAPI error -> " + exception.getMessage())
                 )
                 .block();
     }

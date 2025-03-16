@@ -90,7 +90,7 @@ class GeographyApiClientTest {
         var exception = assertThrows(ClientApiErrorException.class, () ->
                 geographyApiClient.getGeographyInfo("AR"));
 
-        assertThat(exception.getMessage(), containsString("GeoAPI error: 500 Internal Server Error from GET"));
+        assertThat(exception.getMessage(), containsString("GeoAPI error -> 500 Internal Server Error from GET"));
     }
 
     @Test

@@ -1,12 +1,21 @@
 spring:
+  application:
+    name: ip-context-service
+  docker:
+    compose:
+      lifecycle-management: start-only
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/db_spring_practices
-    username: dummy
-    password: password
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:{MYSQL_PORT:3306}/${IP_CONTEXT_DB_NAME:IP_CONTEXT}
+    username: ${MYSQL_DB_NAME:dummy}
+    password: ${MYSQL_DB_PASSWORD:password}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 
 client:
   timeout: 10000

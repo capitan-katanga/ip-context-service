@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 import static com.mercadolibre.ipcontext.util.Utils.convertToJson;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -126,8 +128,23 @@ class FixerApiClientTest {
                 fixerApiClient.getFixer(List.of("ARS"), "USD")
         );
 
-        assertEquals("FixerApi error: Response no success -> " + convertToJson(mockFixerDto),
+        assertEquals("FixerAPI error - Response no success -> " + convertToJson(mockFixerDto),
                 exception.getMessage());
+    }
+
+    @Test
+    void getFixerNotSuccessRuntimeException() {
+        var mockResponse = new MockResponse()
+                .setResponseCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+
+        mockBackEnd.enqueue(mockResponse);
+
+        var exception = assertThrows(RuntimeException.class, () ->
+                fixerApiClient.getFixer(List.of("ARS"), "USD")
+        );
+
+        assertThat(exception.getMessage(), containsString("FixerAPI error -> 500 Internal Server Error from GET"));
     }
 
 }

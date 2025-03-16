@@ -38,13 +38,17 @@ public class FixerApiClient {
     }
 
     public FixerApiDto getFixer(List<String> symbols, String base) {
+        log.info("FixerAPI service call begins.");
+        log.info("Base currency -> {}", base);
+        var symbolsFormatted = String.join(",", symbols);
+        log.info("Symbols to get rates -> {}", symbolsFormatted);
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .scheme(scheme)
                         .host(host)
                         .port(port)
                         .path(path)
-                        .queryParam("symbols", String.join(",", symbols))
+                        .queryParam("symbols", symbolsFormatted)
                         .queryParam("base", base)
                         .build())
                 .header("apikey", apikey)
@@ -53,13 +57,14 @@ public class FixerApiClient {
                 .doOnSuccess(
                         response -> {
                             if (!response.success()) {
-                                throw new ClientApiErrorException("Response no success -> " + Utils.convertToJson(response));
+                                log.error("FixerAPI status code is OK, there was an error.");
+                                throw new ClientApiErrorException("FixerAPI error - Response no success -> " + Utils.convertToJson(response));
+                            } else {
+                                log.info("FixerAPI OK body response -> {}", Utils.convertToJson(response));
                             }
-                        }
-                )
-                .onErrorMap(
-                        exception -> new ClientApiErrorException("FixerApi error: " + exception.getMessage())
-                )
+                        })
+                .onErrorMap(error -> !(error instanceof ClientApiErrorException),
+                        error -> new ClientApiErrorException("FixerAPI error -> " + error.getMessage()))
                 .block();
     }
 

@@ -89,7 +89,7 @@ class IpApiClientTest {
         var exception = assertThrows(ClientApiErrorException.class, () ->
                 ipApiClient.getIpApi("181.165.139.141"));
 
-        assertThat(exception.getMessage(), containsString("IpApi error: 500 Internal Server Error from GET"));
+        assertThat(exception.getMessage(), containsString("IpAPI error -> 500 Internal Server Error from GET"));
     }
 
 }

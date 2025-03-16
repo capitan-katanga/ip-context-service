@@ -27,8 +27,10 @@ public class IpBlacklistServiceImpl implements IpBlacklistService {
     public GetIpBlacklistDto banIpAddress(AddIpBlacklistDto addIpBlacklistDto) {
         var ipAddress = addIpBlacklistDto.ipAddress();
         if (ipAddressIsBaned(ipAddress)) {
+            log.info("The IP is already banned");
             throw new IpAddressIsBannedException("The ip address: " + ipAddress + " is already banned.");
         }
+        log.info("IP is not banned");
         var ipBlackListEntity = mapperBlacklist.toIpAddressBlacklist(addIpBlacklistDto);
         var ipBlackListEntitySaved = ipAddressBlacklistRepository.save(ipBlackListEntity);
         return mapperBlacklist.toGetIpBlacklistDto(ipBlackListEntitySaved);
@@ -36,6 +38,7 @@ public class IpBlacklistServiceImpl implements IpBlacklistService {
 
     @Override
     public Boolean ipAddressIsBaned(String ipAddress) {
+        log.info("Find if the IP is banned -> {}", ipAddress);
         return ipAddressBlacklistRepository.findByIpAddress(ipAddress).isPresent();
     }
 

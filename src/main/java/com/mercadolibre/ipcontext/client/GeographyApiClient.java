@@ -36,7 +36,9 @@ public class GeographyApiClient {
     }
 
     public GeographyApiDto getGeographyInfo(String countryCode) {
-        var response = webClient.get()
+        log.info("GeographyApi service call begins.");
+        log.info("Country code for get information -> {}", countryCode);
+        return webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .scheme(schema)
                         .host(host)
@@ -47,17 +49,18 @@ public class GeographyApiClient {
                 .header("apikey", apikey)
                 .retrieve()
                 .bodyToMono(GeographyApiDto[].class)
-                .onErrorMap(
-                        exception -> new ClientApiErrorException("GeoAPI error: " + exception.getMessage())
-                )
+                .doOnSuccess(response -> {
+                    if (response.length != 1) {
+                        log.error("GeographyAPI status code is OK, but body response has an error.");
+                        throw new ClientApiErrorException("GeoAPI - Error in body response -> " + Utils.convertToJson(response));
+                    } else {
+                        log.info("GeographyAPI OK body response -> {}", Utils.convertToJson(response));
+                    }
+                })
+                .onErrorMap(error -> !(error instanceof ClientApiErrorException),
+                        error -> new ClientApiErrorException("GeoAPI error -> " + error.getMessage()))
+                .map(response -> response[0])
                 .block();
-
-        if (response != null && response.length == 1) {
-            if (response[0] != null) {
-                return response[0];
-            }
-        }
-        throw new ClientApiErrorException("GeoAPI - Error in body response -> " + Utils.convertToJson(response));
     }
 
 }
