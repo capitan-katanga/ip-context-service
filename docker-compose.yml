@@ -1,0 +1,14 @@
+name: ip-context-service-docker
+
+services:
+  mysqldb:
+    container_name: mysql-database
+    image: mysql:latest
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ip_context
+      MYSQL_ROOT_PASSWORD: Ignacio123
+      MYSQL_USER: dummy
+      MYSQL_PASSWORD: password
